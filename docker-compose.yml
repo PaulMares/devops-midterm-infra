@@ -4,12 +4,14 @@ services:
   frontend:
     build:
       context: ../app/frontend
-    image: $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+    image: $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG-frontend
     pull_policy: build
     ports:
       - "5173:5173"
   backend:
-    ports:
-      - "8800:8800"
     build:
       context: ../app/backend
+    image: $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG-backend
+    pull_policy: build
+    ports:
+      - "8800:8800"
