@@ -1,0 +1,60 @@
+name: ECR Deployment
+
+on:
+  workflow_run:
+    workflows: [Nightly]
+    types: [completed]
+
+env:
+  AWS_REGION: us-east-1
+  ECR_REPOSITORY_FRONTEND: midterm/frontend
+  ECR_REPOSITORY_BACKEND: midterm/backend
+
+permissions:
+  contents: read
+
+jobs:
+  ecr-deploy:
+    name: Deploy to AWS ECR
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    environment: Test-deployment
+
+    steps:
+    - name: Checkout src
+      uses: actions/checkout@v4
+      with:
+        repository: PaulMares/crud-react-node-mySQL-go
+        path: ./app
+
+    - name: Checkout infra
+      uses: actions/checkout@v4
+      with:
+        path: ./infra
+
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
+        aws-region: ${{ env.AWS_REGION }}
+
+    - name: Login to Amazon ECR
+      id: login-ecr
+      uses: aws-actions/amazon-ecr-login@v1
+
+    - name: Build, tag, and push image to Amazon ECR
+      id: build-image
+      env:
+        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+        IMAGE_TAG_F: ${{ github.sha }}
+        IMAGE_TAG_B: ${{ github.sha }}
+      run: |
+        # Build a docker container and
+        # push it to ECR so that it can
+        # be deployed to ECS.
+        docker compose -f ./infra/docker-compose.yml build
+        docker images
+        docker push $ECR_REGISTRY/$ECR_REPOSITORY_FRONTEND:$IMAGE_TAG_F
+        docker push $ECR_REGISTRY/$ECR_REPOSITORY_BACKEND:$IMAGE_TAG_B
