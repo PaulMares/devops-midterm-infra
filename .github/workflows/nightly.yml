@@ -18,7 +18,7 @@ jobs:
     name: Verification through temp EC2
     runs-on: ubuntu-latest
     environment: Test-deployment
-
+    steps:
     - name: Configure AWS CLI 2
       run: |
         cd ~/.aws
