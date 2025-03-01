@@ -25,6 +25,8 @@ jobs:
 
     - name: Checkout infra
       uses: actions/checkout@v4
+      with:
+        path: ./infra
 
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v1
@@ -48,7 +50,7 @@ jobs:
         # push it to ECR so that it can
         # be deployed to ECS.
         ls
-        docker compose -f docker-compose.yml build
+        docker compose -f ./infra/docker-compose.yml build
         docker images
         docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
         echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
