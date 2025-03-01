@@ -35,12 +35,10 @@ jobs:
         region=${{ env.AWS_REGION }}
         output=json
         EOF
-        cat credentials
-        cat config
 
     - name: Create temporary EC2
       run: |
-        aws ec2 run-instances --image-id ami-04b4f1a9cf54c11d0 --count 1 --instance-type t2.micro --key-name MyKeyPair --security-group-ids sg-903004f8 --subnet-id subnet-6e7f829e
+        aws ec2 run-instances --image-id ami-04b4f1a9cf54c11d0 --count 1 --instance-type t2.micro --security-group-ids sg-02305a6071e4178cf --subnet-id subnet-08dda4cbe1450c84c
 
   ecr-deploy:
     name: Deploy to AWS ECR
