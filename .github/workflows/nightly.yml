@@ -21,7 +21,9 @@ jobs:
     steps:
     - name: Configure AWS CLI 2
       run: |
-        cd ~/.aws
+        cd ~
+        mkdir .aws
+        cd .aws
         echo "[default]\naws_access_key_id=${{ secrets.AWS_ACCESS_KEY_ID }}\naws_secret_access_key=${{ secrets.AWS_SECRET_ACCESS_KEY }}\naws_session_token=${{ secrets.AWS_SESSION_TOKEN }}" > credentials
         echo "[default]\nregion=${{ env.AWS_REGION }}\noutput=json" > config
         cat credentials
