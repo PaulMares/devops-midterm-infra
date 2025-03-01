@@ -1,0 +1,19 @@
+name: Deployment
+
+services:
+  frontend:
+    build:
+      context: ./frontend
+    depends_on:
+      database:
+        condition: service_healthy
+    ports:
+      - "5173:5173"
+  backend:
+    ports:
+      - "8800:8800"
+    build:
+      context: ./backend
+    depends_on:
+      database:
+        condition: service_healthy
