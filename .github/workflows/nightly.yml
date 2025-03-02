@@ -42,11 +42,9 @@ jobs:
       id: ec2
       run: |
         aws ec2 run-instances --image-id ami-04b4f1a9cf54c11d0 --count 1 --instance-type t2.micro --key-name midterm-test --security-group-ids sg-02305a6071e4178cf --subnet-id subnet-08dda4cbe1450c84c --associate-public-ip-address --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=$TMP_NAME}]'
+        sleep 1m
         echo "instance_id=$(aws ec2 describe-instances --filters Name=tag:Name,Values=$TMP_NAME --query 'Instances[0].InstanceId' --output text)" >> "$GITHUB_OUTPUT"
         echo "public_dns=$(aws ec2 describe-instances --filters Name=tag:Name,Values=$TMP_NAME --query 'Instances[0].PublicDnsName' --output text)" >> "$GITHUB_OUTPUT"
-
-    - name: Debug
-      run: aws ec2 describe-instances
         
     - name: Set up project in EC2
       run: ssh -o StrictHostKeyChecking=no ubuntu@${{ steps.ec2.outputs.public_dns }} ls
