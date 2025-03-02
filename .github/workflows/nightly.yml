@@ -45,6 +45,9 @@ jobs:
         echo "instance_id=$(aws ec2 describe-instances --filters Name=tag:Name,Values=${{ env.TMP_NAME }} --query 'Instances[0].InstanceId' --output text)" >> "$GITHUB_OUTPUT"
         echo "public_dns=$(aws ec2 describe-instances --filters Name=tag:Name,Values=${{ env.TMP_NAME }} --query 'Instances[0].PublicDnsName' --output text)" >> "$GITHUB_OUTPUT"
         
+    - name: Debug
+      run: aws ec2 describe-instances --filters Name=tag:Name,Values=fc43d6bfe19164468ce25e0d8a3e70d7ba2c9a5a --query 'Instances[0].InstanceId' --output text
+    
     - name: Set up project in EC2
       run: |
         aws ec2 wait instance-running --instance-ids ${{ steps.ec2.outputs.instance_id }}
