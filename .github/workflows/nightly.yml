@@ -38,7 +38,7 @@ jobs:
 
     - name: Create temporary EC2
       id: ec2
-      run: echo "instance_id=$((aws ec2 run-instances --image-id ami-04b4f1a9cf54c11d0 --count 1 --instance-type t2.micro --security-group-ids sg-02305a6071e4178cf --subnet-id subnet-08dda4cbe1450c84c))" >> "$GITHUB_OUTPUT"
+      run: echo "instance_id=$((aws ec2 run-instances --image-id ami-04b4f1a9cf54c11d0 --count 1 --instance-type t2.micro --keyName vockey --security-group-ids sg-02305a6071e4178cf --subnet-id subnet-08dda4cbe1450c84c))" >> "$GITHUB_OUTPUT"
 
     - name: Terminate temporary EC2
       run: aws ec2 terminate-instances --instance-ids ${{ steps.ec2.outputs.instance_id }}
