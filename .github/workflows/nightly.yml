@@ -221,7 +221,7 @@ jobs:
           echo "SSL_CERT='${{ secrets.SSL_CERT }}'" >> .env;
           echo "SSL_KEY='${{ secrets.SSL_KEY }}'" >> .env;
           aws ecr get-login-password --region us-east-1 | sudo docker login --username AWS --password-stdin ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.us-east-1.amazonaws.com
-          sudo docker stop midterm-frontend-1 || true;
-          sudo docker stop midterm-backend-1 || true;
+          sudo docker stop build-frontend-1 || true;
+          sudo docker stop build-backend-1 || true;
           curl -o docker-compose.yml https://raw.githubusercontent.com/PaulMares/devops-midterm-infra/refs/heads/main/docker-compose.yml
           sudo docker compose up --pull always`
