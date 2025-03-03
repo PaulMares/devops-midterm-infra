@@ -83,10 +83,7 @@ jobs:
         git clone https://github.com/PaulMares/crud-react-node-mySQL-go.git;
         cd crud-react-node-mySQL-go;
         cp .env.example .env;
-        sudo groupadd docker;
-        sudo usermod -aG docker $USER;
-        newgrp docker
-        docker compose up  --build --wait'
+        sudo docker compose up --build --wait'
 
     - name: Smoke test
       run: curl ${{ steps.ec2_wait.outputs.public_dns }}:8000
