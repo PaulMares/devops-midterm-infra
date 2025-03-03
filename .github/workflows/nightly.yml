@@ -66,6 +66,7 @@ jobs:
       run: |
         ssh -i ./key.pem -o StrictHostKeyChecking=no ubuntu@${{ steps.ec2_wait.outputs.public_dns }}
         curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash
+        nvm install node
         mkdir midterm
         cd midterm
         git clone https://github.com/PaulMares/crud-react-node-mySQL-go.git
