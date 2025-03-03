@@ -226,4 +226,4 @@ jobs:
           sudo docker stop midterm-frontend-1 || true;
           sudo docker stop midterm-backend-1 || true;
           curl -o docker-compose.yml https://raw.githubusercontent.com/PaulMares/devops-midterm-infra/refs/heads/main/docker-compose.yml
-          sudo docker compose up --pull always --wait'
+          sudo docker compose up --pull always'
