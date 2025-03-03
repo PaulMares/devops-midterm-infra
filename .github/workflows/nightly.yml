@@ -192,8 +192,8 @@ jobs:
           unzip awscliv2.zip;
           sudo ./aws/install || true;
           mkdir ~/.aws || true;
-          export SSL_KEY="${{ secrets.VITE_SSL_KEY }}";
-          export SSL_CERT="${{ secrets.VITE_SSL_CERT }}";
+          export SSL_KEY=`echo ${{ secrets.VITE_SSL_KEY }}`;
+          export SSL_CERT=`echo ${{ secrets.VITE_SSL_CERT }}`;
           echo "[default]
           aws_access_key_id=${{ secrets.AWS_ACCESS_KEY_ID }}
           aws_secret_access_key=${{ secrets.AWS_SECRET_ACCESS_KEY }}
