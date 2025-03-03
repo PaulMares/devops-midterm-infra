@@ -87,7 +87,7 @@ jobs:
           cp .env.example .env;
           sudo docker compose up --build --wait;
           sleep 10s;
-          curl localhost:5173'
+          curl localhost:443'
 
     - name: Terminate temporary EC2
       if: ${{ steps.ec2.conclusion }} == success
