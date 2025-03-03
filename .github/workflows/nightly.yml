@@ -211,7 +211,7 @@ jobs:
           DB_PORT=3306
           DB_USER=root
           DB_PASS=${{ secrets.DB_PASS }}
-          DB_NAME=test
+          DB_NAME=books-db
           BACKEND_HOST=backend
           BACKEND_PORT=8800
           FRONTEND_HOST=frontend
