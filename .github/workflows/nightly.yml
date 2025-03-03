@@ -191,8 +191,8 @@ jobs:
           export AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }};
           export AWS_SESSION_TOKEN=${{ secrets.AWS_SESSION_TOKEN }};
           aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.us-east-1.amazonaws.com
-          docker pull $ECR_REPOSITORY_FRONTEND:$IMAGE_TAG_F;
-          docker pull $ECR_REPOSITORY_BACKEND:$IMAGE_TAG_B;
+          docker pull ${{ env.ECR_REPOSITORY_FRONTEND }}:${{ env.IMAGE_TAG_F }};
+          docker pull ${{ env.ECR_REPOSITORY_BACKEND }}:${{ env.IMAGE_TAG_B }};
           sudo docker stop midterm-frontend-1 || true;
           sudo docker stop midterm-backend-1 || true;
           curl -o docker-compose.yml https://raw.githubusercontent.com/PaulMares/devops-midterm-infra/refs/heads/main/docker-compose.yml
