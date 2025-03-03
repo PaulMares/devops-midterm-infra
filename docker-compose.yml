@@ -7,7 +7,7 @@ services:
     image: $ECR_REGISTRY/$ECR_REPOSITORY_FRONTEND:$IMAGE_TAG_F
     pull_policy: build
     ports:
-      - "5173:5173"
+      - "80:5173"
   backend:
     build:
       context: ../app/backend
