@@ -174,7 +174,7 @@ jobs:
     
     - name: Pull into QA EC2
       run: |
-        ssh -i ~/key.pem -o StrictHostKeyChecking=no ubuntu@${{ steps.qa_info.outputs.public_dns }} `
+        ssh -i ~/key.pem -o StrictHostKeyChecking=no ubuntu@${{ steps.qa_info.outputs.public_dns }} '
           nvm install node
           sudo apt-get update
           sudo apt-get install ca-certificates curl
@@ -214,10 +214,10 @@ jobs:
           FRONTEND_PORT=80
           VITE_BACKEND_HOST=backend
           VITE_BACKEND_PORT=8800" > .env
-          echo "SSL_CERT='${{ secrets.SSL_CERT }}'" >> .env
-          echo "SSL_KEY='${{ secrets.SSL_KEY }}'" >> .env
+          echo "SSL_CERT=${{ secrets.SSL_CERT }}" >> .env
+          echo "SSL_KEY=${{ secrets.SSL_KEY }}" >> .env
           aws ecr get-login-password --region us-east-1 | sudo docker login --username AWS --password-stdin ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.us-east-1.amazonaws.com
           sudo docker stop build-frontend-1 || true
           sudo docker stop build-backend-1 || true
           curl -o docker-compose.yml https://raw.githubusercontent.com/PaulMares/devops-midterm-infra/refs/heads/main/docker-compose.yml
-          sudo docker compose up --pull always`
+          sudo docker compose up --pull always'
