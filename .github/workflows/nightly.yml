@@ -205,7 +205,7 @@ jobs:
           IMAGE_TAG_F=${{ env.IMAGE_TAG_F }}
           IMAGE_TAG_B=${{ env.IMAGE_TAG_B }}
           EOF" > .env;
-          aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.us-east-1.amazonaws.com
+          aws ecr get-login-password --region us-east-1 | sudo docker login --username AWS --password-stdin ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.us-east-1.amazonaws.com
           sudo docker stop midterm-frontend-1 || true;
           sudo docker stop midterm-backend-1 || true;
           curl -o docker-compose.yml https://raw.githubusercontent.com/PaulMares/devops-midterm-infra/refs/heads/main/docker-compose.yml
