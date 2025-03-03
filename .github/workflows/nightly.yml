@@ -85,9 +85,8 @@ jobs:
           git clone https://github.com/PaulMares/crud-react-node-mySQL-go.git
           cd crud-react-node-mySQL-go
           cp .env.example .env
-          echo `
-          SSL_CERT=\'${{ secrets.SSL_CERT }}\'
-          SSL_KEY=\''${{ secrets.SSL_KEY }}\'` >> .env
+          echo SSL_CERT='\'${{ secrets.SSL_CERT }}\'' >> .env
+          echo SSL_KEY='\'${{ secrets.SSL_KEY }}\'' >> .env
           cat .env
           pwd
           sudo docker compose up --build --wait
