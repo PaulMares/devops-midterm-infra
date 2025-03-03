@@ -194,13 +194,12 @@ jobs:
           export AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }};
           export AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }};
           export AWS_SESSION_TOKEN=${{ secrets.AWS_SESSION_TOKEN }};
-          cat > ./.env<< "EOF
-          ECR_REGISTRY=${{ steps.login-ecr.outputs.registry }}
+          echo "ECR_REGISTRY=${{ steps.login-ecr.outputs.registry }}
           ECR_REPOSITORY_FRONTEND=${{ env.ECR_REPOSITORY_FRONTEND }}
           ECR_REPOSITORY_BACKEND=${{ env.ECR_REPOSITORY_BACKEND }}
           IMAGE_TAG_F=${{ env.IMAGE_TAG_F }}
           IMAGE_TAG_B=${{ env.IMAGE_TAG_B }}
-          EOF";
+          EOF" > .env;
           aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.us-east-1.amazonaws.com
           sudo docker stop midterm-frontend-1 || true;
           sudo docker stop midterm-backend-1 || true;
