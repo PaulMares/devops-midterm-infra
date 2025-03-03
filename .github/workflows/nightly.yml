@@ -65,7 +65,8 @@ jobs:
     - name: Set up project in EC2
       run: |
         ssh -i ./key.pem -o StrictHostKeyChecking=no ubuntu@${{ steps.ec2_wait.outputs.public_dns }}
-        /home/runner/.nvm/nvm.sh
+        sudo /home/runner/.nvm/nvm.sh
+        source ~/.bashrc
         nvm install node
         mkdir midterm
         cd midterm
