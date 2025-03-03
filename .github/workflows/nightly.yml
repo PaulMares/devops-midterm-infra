@@ -83,7 +83,7 @@ jobs:
         sudo apt-get update
         sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
         cp .env.example .env
-        docker compose up
+        docker compose up --wait
 
     - name: Smoke test
       run: curl ${{ steps.ec2_wait.outputs.public_dns }}:8000
