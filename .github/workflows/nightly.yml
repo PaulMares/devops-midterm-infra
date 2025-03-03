@@ -121,7 +121,7 @@ jobs:
 
     - name: Login to Amazon ECR
       id: login-ecr
-      uses: aws-actions/amazon-ecr-login@v1
+      uses: aws-actions/amazon-ecr-login@v2
 
     - name: Build, tag, and push image to Amazon ECR
       id: build-image
@@ -165,7 +165,7 @@ jobs:
 
     - name: Login to Amazon ECR
       id: login-ecr
-      uses: aws-actions/amazon-ecr-login@v1
+      uses: aws-actions/amazon-ecr-login@v2
     
     - name: Get QA EC2 info
       id: qa_info
@@ -190,7 +190,7 @@ jobs:
           sudo apt-get -y install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin unzip;
           curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
           unzip awscliv2.zip
-          sudo ./aws/install
+          sudo ./aws/install || true
           export AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }};
           export AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }};
           export AWS_SESSION_TOKEN=${{ secrets.AWS_SESSION_TOKEN }};
@@ -200,9 +200,7 @@ jobs:
           export ECR_REPOSITORY_BACKEND=${{ env.ECR_REPOSITORY_BACKEND }};
           export IMAGE_TAG_B=${{ env.IMAGE_TAG_B }}
           aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.us-east-1.amazonaws.com
-          sudo docker pull ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY_FRONTEND }}:${{ env.IMAGE_TAG_F }};
-          sudo docker pull ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY_BACKEND }}:${{ env.IMAGE_TAG_B }};
           sudo docker stop midterm-frontend-1 || true;
           sudo docker stop midterm-backend-1 || true;
           curl -o docker-compose.yml https://raw.githubusercontent.com/PaulMares/devops-midterm-infra/refs/heads/main/docker-compose.yml
-          docker compose up --wait'
+          sudo docker compose up --wait'
