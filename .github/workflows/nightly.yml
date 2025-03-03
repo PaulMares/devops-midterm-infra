@@ -19,7 +19,7 @@ jobs:
     runs-on: ubuntu-latest
     environment: Test-deployment
     env:
-      TMP_NAME: ${{ github.sha }}
+      TMP_NAME: ${{ github.run_id }}
     steps:
     - name: Configure AWS CLI 2
       run: |
