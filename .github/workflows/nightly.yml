@@ -50,8 +50,12 @@ jobs:
         aws ec2 wait instance-status-ok --instance-ids ${{ steps.ec2.outputs.instance_id }}
         echo "public_dns=$(aws ec2 describe-instances --filters Name=tag:hash,Values=${{ env.TMP_NAME }} --query 'Reservations[0].Instances[0].PublicDnsName' --output text)" >> "$GITHUB_OUTPUT"
 
-    - name: Set up keys
-      run: echo "${{ secrets.SSH_KEY }}" > "./secret.pem"
+    - name: Install SSH key
+      uses: shimataro/ssh-key-action@v2
+      with:
+        key: ${{ secrets.SSH_KEY }}
+        name: aws # optional
+        known_hosts: ""
     
     - name: Set up project in EC2
       run: |
