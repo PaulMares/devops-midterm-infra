@@ -212,10 +212,9 @@ jobs:
           BACKEND_HOST=backend
           BACKEND_PORT=8800
           FRONTEND_HOST=frontend
-          FRONTEND_PORT=80
-          EOF" > .env;
+          FRONTEND_PORT=80" > .env;
           aws ecr get-login-password --region us-east-1 | sudo docker login --username AWS --password-stdin ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.us-east-1.amazonaws.com
           sudo docker stop midterm-frontend-1 || true;
           sudo docker stop midterm-backend-1 || true;
           curl -o docker-compose.yml https://raw.githubusercontent.com/PaulMares/devops-midterm-infra/refs/heads/main/docker-compose.yml
-          sudo docker compose up --pull always --wait'
+          sudo docker compose up --wait'
