@@ -91,7 +91,7 @@ jobs:
           pwd
           sudo docker compose up --build --wait
           sleep 10s
-          curl -k localhost:443"
+          curl -k https://localhost:443"
 
     - name: Terminate temporary EC2
       if: ${{ steps.ec2.conclusion }} == success
