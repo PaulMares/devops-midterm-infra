@@ -62,7 +62,7 @@ jobs:
         ssh -o StrictHostKeyChecking=no ubuntu@${{ steps.ec2_wait.outputs.public_dns }} ls
 
     - name: Terminate temporary EC2
-      if: ${{ steps.ec2.outcome == success }}
+      if: ${{ steps.ec2.conclusion }} == success
       run: aws ec2 terminate-instances --instance-ids ${{ steps.ec2.outputs.instance_id }}
         
 
