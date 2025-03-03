@@ -87,6 +87,8 @@ jobs:
           cp .env.example .env
           echo SSL_CERT=\''${{ secrets.SSL_CERT }}'\' >> .env
           echo SSL_KEY=\''${{ secrets.SSL_KEY }}'\' >> .env
+          cat .env
+          pwd
           sudo docker compose up --build --wait
           sleep 10s
           curl -k localhost:443"
@@ -218,7 +220,6 @@ jobs:
           VITE_BACKEND_PORT=8800' > .env
           echo SSL_CERT=\''${{ secrets.SSL_CERT }}'\' >> .env
           echo SSL_KEY=\''${{ secrets.SSL_KEY }}'\' >> .env
-          cat .env
           aws ecr get-login-password --region us-east-1 | sudo docker login --username AWS --password-stdin ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.us-east-1.amazonaws.com
           sudo docker stop build-frontend-1 || true
           sudo docker stop build-backend-1 || true
