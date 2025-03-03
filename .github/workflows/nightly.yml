@@ -179,6 +179,5 @@ jobs:
           docker pull $ECR_REGISTRY/$ECR_REPOSITORY_BACKEND:$IMAGE_TAG_B;
           docker stop midterm-frontend-1 || true;
           docker stop midterm-backend-1 || true;
-          git clone https://github.com/PaulMares/devops-midterm-infra.git;
-          cd devops-midterm-infra;
+          curl -o docker-compose.yml https://github.com/PaulMares/devops-midterm-infra/blob/main/docker-compose.yml
           docker compose up --wait'
