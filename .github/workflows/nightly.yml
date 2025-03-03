@@ -174,7 +174,7 @@ jobs:
     
     - name: Pull into QA EC2
       run: |
-        ssh -i ~/key.pem -o StrictHostKeyChecking=no ubuntu@${{ steps.qa_info.outputs.public_dns }} <<EOF
+        ssh -i ~/key.pem -o StrictHostKeyChecking=no ubuntu@${{ steps.qa_info.outputs.public_dns }} `
           nvm install node
           sudo apt-get update
           sudo apt-get install ca-certificates curl
@@ -220,5 +220,4 @@ jobs:
           sudo docker stop build-frontend-1 || true
           sudo docker stop build-backend-1 || true
           curl -o docker-compose.yml https://raw.githubusercontent.com/PaulMares/devops-midterm-infra/refs/heads/main/docker-compose.yml
-          sudo docker compose up --pull always
-          EOF
+          sudo docker compose up --pull always`
