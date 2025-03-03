@@ -188,10 +188,12 @@ jobs:
           echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu $(. /etc/os-release && echo "${UBUNTU_CODENAME:-$VERSION_CODENAME}") stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null;
           sudo apt-get update;
           sudo apt-get -y install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin unzip;
-          curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-          unzip awscliv2.zip
-          sudo ./aws/install || true
-          mkdir ~/.aws || true
+          curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip";
+          unzip awscliv2.zip;
+          sudo ./aws/install || true;
+          mkdir ~/.aws || true;
+          export SSL_KEY=`${{ secrets.VITE_SSL_KEY }}`;
+          export SSL_CERT=`${{ secrets.VITE_SSL_CERT }}`;
           echo "[default]
           aws_access_key_id=${{ secrets.AWS_ACCESS_KEY_ID }}
           aws_secret_access_key=${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -218,8 +220,8 @@ jobs:
           FRONTEND_PORT=80
           VITE_BACKEND_HOST=backend
           VITE_BACKEND_PORT=8800
-          VITE_SSL_KEY=${{ secrets.VITE_SSL_KEY }}
-          VITE_SSL_CERT=${{ secrets.VITE_SSL_CERT }}" > .env;
+          VITE_SSL_KEY=$SSL_KEY
+          VITE_SSL_CERT=$SSL_CERT" > .env;
           aws ecr get-login-password --region us-east-1 | sudo docker login --username AWS --password-stdin ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.us-east-1.amazonaws.com
           sudo docker stop midterm-frontend-1 || true;
           sudo docker stop midterm-backend-1 || true;
