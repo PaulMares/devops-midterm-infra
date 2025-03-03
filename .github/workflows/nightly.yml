@@ -166,7 +166,7 @@ jobs:
     - name: Get QA EC2 info
       id: qa_info
       run: |
-        echo "public_dns=$(aws ec2 describe-instances --filters Name=tag:hash,Values=${{ env.QA_INSTANCE_ID }} --query 'Reservations[0].Instances[0].PublicDnsName' --output text)" >> "$GITHUB_OUTPUT"
+        echo "public_dns=$(aws ec2 describe-instances --filters Name=tag:Name,Values=midterm-QA --query 'Reservations[0].Instances[0].PublicDnsName' --output text)" >> "$GITHUB_OUTPUT"
     
     - name: Pull into QA EC2
       run: |
