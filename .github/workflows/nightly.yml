@@ -174,39 +174,30 @@ jobs:
     
     - name: Pull into QA EC2
       run: |
-        ssh -i ~/key.pem -o StrictHostKeyChecking=no ubuntu@${{ steps.qa_info.outputs.public_dns }} '
-          curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash;
-          export NVM_DIR="$HOME/.nvm"
-          [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-          [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-          pwd
-          pwd
-          pwd
-          pwd
-          pwd
-          nvm install node;
-          sudo apt-get update;
-          sudo apt-get install ca-certificates curl;
-          sudo install -m 0755 -d /etc/apt/keyrings;
-          sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc;
-          sudo chmod a+r /etc/apt/keyrings/docker.asc;
-          echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu $(. /etc/os-release && echo "${UBUNTU_CODENAME:-$VERSION_CODENAME}") stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null;
-          sudo apt-get update;
-          sudo apt-get -y install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin unzip;
-          curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip";
-          unzip awscliv2.zip;
-          sudo ./aws/install || true;
-          mkdir ~/.aws || true;
+        ssh -i ~/key.pem -o StrictHostKeyChecking=no ubuntu@${{ steps.qa_info.outputs.public_dns }} <<EOF
+          nvm install node
+          sudo apt-get update
+          sudo apt-get install ca-certificates curl
+          sudo install -m 0755 -d /etc/apt/keyrings
+          sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+          sudo chmod a+r /etc/apt/keyrings/docker.asc
+          echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu $(. /etc/os-release && echo "${UBUNTU_CODENAME:-$VERSION_CODENAME}") stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+          sudo apt-get update
+          sudo apt-get -y install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin unzip
+          curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+          unzip awscliv2.zip
+          sudo ./aws/install || true
+          mkdir ~/.aws || true
           echo "[default]
           aws_access_key_id=${{ secrets.AWS_ACCESS_KEY_ID }}
           aws_secret_access_key=${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws_session_token=${{ secrets.AWS_SESSION_TOKEN }}" > ~/.aws/credentials;
+          aws_session_token=${{ secrets.AWS_SESSION_TOKEN }}" > ~/.aws/credentials
           echo "[default]
           region=${{ env.AWS_REGION }}
           output=json
           aws_access_key_id=${{ secrets.AWS_ACCESS_KEY_ID }}
           aws_secret_access_key=${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws_session_token=${{ secrets.AWS_SESSION_TOKEN }}" > ~/.aws/config;
+          aws_session_token=${{ secrets.AWS_SESSION_TOKEN }}" > ~/.aws/config
           echo "ECR_REGISTRY=${{ steps.login-ecr.outputs.registry }}
           ECR_REPOSITORY_FRONTEND=${{ env.ECR_REPOSITORY_FRONTEND }}
           ECR_REPOSITORY_BACKEND=${{ env.ECR_REPOSITORY_BACKEND }}
@@ -222,11 +213,12 @@ jobs:
           FRONTEND_HOST=frontend
           FRONTEND_PORT=80
           VITE_BACKEND_HOST=backend
-          VITE_BACKEND_PORT=8800" > .env;
-          echo SSL_CERT=`${{ secrets.SSL_CERT }}` >> .env;
-          echo SSL_KEY=`${{ secrets.SSL_KEY }}` >> .env;
-          aws ecr get-login-password --region us-east-1 | sudo docker login --username AWS --password-stdin ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.us-east-1.amazonaws.com;
-          sudo docker stop build-frontend-1 || true;
-          sudo docker stop build-backend-1 || true;
-          curl -o docker-compose.yml https://raw.githubusercontent.com/PaulMares/devops-midterm-infra/refs/heads/main/docker-compose.yml;
-          sudo docker compose up --pull always'
+          VITE_BACKEND_PORT=8800" > .env
+          echo "SSL_CERT='${{ secrets.SSL_CERT }}'" >> .env
+          echo "SSL_KEY='${{ secrets.SSL_KEY }}'" >> .env
+          aws ecr get-login-password --region us-east-1 | sudo docker login --username AWS --password-stdin ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.us-east-1.amazonaws.com
+          sudo docker stop build-frontend-1 || true
+          sudo docker stop build-backend-1 || true
+          curl -o docker-compose.yml https://raw.githubusercontent.com/PaulMares/devops-midterm-infra/refs/heads/main/docker-compose.yml
+          sudo docker compose up --pull always
+          EOF
