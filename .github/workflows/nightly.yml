@@ -84,7 +84,6 @@ jobs:
         cd crud-react-node-mySQL-go;
         cp .env.example .env;
         sudo docker compose up --build --wait;
-        sleep 5s;
         curl localhost:5173'
 
     - name: Smoke test
