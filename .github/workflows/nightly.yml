@@ -223,8 +223,8 @@ jobs:
           FRONTEND_PORT=80
           VITE_BACKEND_HOST=backend
           VITE_BACKEND_PORT=8800" > .env;
-          echo SSL_CERT='${{ secrets.SSL_CERT }}' >> .env;
-          echo SSL_KEY='${{ secrets.SSL_KEY }}' >> .env;
+          echo SSL_CERT=\'${{ secrets.SSL_CERT }}\' >> .env;
+          echo SSL_KEY=\'${{ secrets.SSL_KEY }}\' >> .env;
           pwd
           pwd
           pwd
