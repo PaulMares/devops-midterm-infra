@@ -198,7 +198,7 @@ jobs:
           aws_session_token=${{ secrets.AWS_SESSION_TOKEN }}" > ~/.aws/credentials;
           echo "[default]
           region=${{ env.AWS_REGION }}
-          output=json" > ~/.aws/.config;
+          output=json" > ~/.aws/config;
           echo "ECR_REGISTRY=${{ steps.login-ecr.outputs.registry }}
           ECR_REPOSITORY_FRONTEND=${{ env.ECR_REPOSITORY_FRONTEND }}
           ECR_REPOSITORY_BACKEND=${{ env.ECR_REPOSITORY_BACKEND }}
