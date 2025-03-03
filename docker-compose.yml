@@ -5,6 +5,7 @@ services:
     build:
       context: ../app/frontend
     image: $ECR_REGISTRY/$ECR_REPOSITORY_FRONTEND:$IMAGE_TAG_F
+    env_file: .env
     pull_policy: build
     ports:
       - "80:5173"
@@ -12,6 +13,7 @@ services:
     build:
       context: ../app/backend
     image: $ECR_REGISTRY/$ECR_REPOSITORY_BACKEND:$IMAGE_TAG_B
+    env_file: .env
     pull_policy: build
     ports:
       - "8800:8800"
