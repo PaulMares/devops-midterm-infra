@@ -56,10 +56,15 @@ jobs:
         key: ${{ secrets.SSH_KEY }}
         name: aws
         known_hosts: unnecessary
+
+    - name: Set up key file
+      run: |
+        echo "${{ secrets.SSH_KEY }}" > ./key.pem
+        chmod 600 ./key.pem
     
     - name: Set up project in EC2
       run: |
-        ssh -o StrictHostKeyChecking=no ubuntu@${{ steps.ec2_wait.outputs.public_dns }} ls
+        ssh -i ./key.pem -o StrictHostKeyChecking=no ubuntu@${{ steps.ec2_wait.outputs.public_dns }} ls
 
     - name: Terminate temporary EC2
       if: ${{ steps.ec2.conclusion }} == success
