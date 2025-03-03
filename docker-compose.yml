@@ -2,17 +2,17 @@ name: build
 
 services:
   frontend:
+    image: $ECR_REGISTRY/$ECR_REPOSITORY_FRONTEND:$IMAGE_TAG_F
     build:
       context: ../app/frontend
-    image: $ECR_REGISTRY/$ECR_REPOSITORY_FRONTEND:$IMAGE_TAG_F
     env_file: .env
     pull_policy: build
     ports:
       - "5173:5173"
   backend:
+    image: $ECR_REGISTRY/$ECR_REPOSITORY_BACKEND:$IMAGE_TAG_B
     build:
       context: ../app/backend
-    image: $ECR_REGISTRY/$ECR_REPOSITORY_BACKEND:$IMAGE_TAG_B
     env_file: .env
     pull_policy: build
     ports:
